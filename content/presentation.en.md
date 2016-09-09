@@ -1,36 +1,37 @@
-# Usando Java 8 no Android
+# Using Java 8 on Android
 
 [Eduardo Bonet](http://ebonet.me)
 
 ---
 
-## Motivação
+## Motivation
 
-- Java 8 foi lançado há mais de 2 anos, trazendo diversas novidades, mas que não chegaram ao Android.
+- Java 8 was released over 2 years ago, bringing many new features, but that are not yet availabe on Android.
 
-- A nova toolchain (Jack & Jill) trouxe um suporte limitado de algumas features, porém deixou outras de
-fora e algumas são suportadas apenas de Android N para frente.   
+- The new Jack & Kill toolchain brought us some official Java 8 support, but some features are only available 
+after Android N and others were left aside.   
 
 ---
 
 ## Java 8
 
-- Redução de verbosidade
-- Novas API's:
+- Much less verbose.
+
+- New API's:
     - java.time.*
     - java.util.stream.*
     - java.util.function.* 
 
-- Mudanças na linguagem: 
-    - Default Methods e métodos estáticos para Interfaces
-    - Lambda
+- Language changes: 
+    - Default Methods and static methods for interfaces
+    - Lambda Functions
     - Method References
 
 ---
 
 ## Streams
 
-API melhorada para manuseio de coleções, facilitando execução paralela
+Improved API for dealing with collections, also making parallelization much easier. 
 
 
 ```java 
@@ -57,7 +58,7 @@ names = people.stream()
 
 ## Time API
 
-Nova API para lidar com data e hora, substituindo as classes `java.util.Calendar` e `java.util.Date`.
+New API to deal with date and time, fully replacing `java.util.Calendar` and `java.util.Date`.
 
 ```java 
 // Java7
@@ -82,9 +83,9 @@ otherDatePlusThreeDays = otherDate.plus(3, ChronoUnit.DAYS);
 
 ---
 
-## Lambdas
+## Lambda Functions
 
-Lambdas fornecem uma sintaxe muito mais limpa para Functors. 
+Lambda Functions are a easier and cleaner way to create objects that implement a single method interface, i. e., Functors.
 
 ```java
 // Java 7
@@ -140,8 +141,7 @@ Observable.from(people)
 
 ## Method References
 
-Method References são uma versão ainda mais simplificada de lambdas, onde o argumento é simplesmentes repassado para outra função  
-
+Method References are an even simpler version of Lambda Functions, where arguments are simply passed on to another function.
 
 ```java
 Observable.from(people)
@@ -156,7 +156,7 @@ Observable.from(people)
 
 ## Try-with-resources
 
-Sintaxe melhorada para objetos que precisam ser fechados após seu uso. 
+Better Syntax for objects that must be closed after use (they must implement the `Closeable` interface). 
 
 ```java 
 // Java 7
@@ -178,7 +178,7 @@ try (BufferedReader br = new BufferedReader(new FileReader(path))) {
 
 ---
 
-## Default Methods para Interfaces
+## Default Methods for Interfaces
 
 ```java
 interface Vehicle {
@@ -202,20 +202,20 @@ class Boat implements Vehicle {
 
 ---
 
-## Trazendo o Java 8 para o Android
+## Bringing Java 8 to Android
 
 ---
 
 ## Jack
 
-- Nova ferramenta do Android para compilar código Java para `.dex`
-- Introduzido no Android N
+- New Android tool that transforms `.java` into  `.dex`
+- Introduced on `Android N`.
 
-- Suporte a Lambdas e Method References para todas as versões <!-- .element: class="fragment" data-fragment-index="2" --> 
-- Suporte a Default Methods e Streams para Android 24+  <!-- .element: class="fragment" data-fragment-index="3" -->   
+- Suports Lambda Functions and Method References on all Android versions. <!-- .element: class="fragment" data-fragment-index="2" --> 
+- Suports Default Methods and Streams only for Android 24+  <!-- .element: class="fragment" data-fragment-index="3" -->   
 
 
-- **Não traz `java.time.*`** 
+- **Does nto support `java.time.*`** 
 
 <!-- .element: class="fragment" data-fragment-index="4" -->
 
@@ -223,7 +223,7 @@ class Boat implements Vehicle {
 
 ## Streams: LightweightStreams
 
-Implementação da Streams API usando Collections do Java 7.
+Streams API implementation using Java 7 Collections.
 
 ```java
 List<String> names = Stream.of(people)
@@ -238,7 +238,7 @@ List<String> names = Stream.of(people)
 
 ## Streams: RxJava
 
-Observáveis são fundamentalmente diferente de  Streams (push vs pull), mas pode-se ter o mesmo resultado usando `Observable.from(myCollection)`.
+Observables are fundamentally different from Streams (push vs. pull), but similar functionality can be obtained using `Observable.from(myCollection)`.
 
 ```java
 List<String> names = Observable.from(people)
@@ -282,18 +282,18 @@ Observable.from(people)
 ### `java.time.*`:
 ##  ThreeTenABP
 
-- Versão otimizada para Android da biblioteca ThreeTenBP
-- Mesma implementação do java.time.*, tornando fácil refatoração futura
+- [ThreeTenBP](https://github.com/ThreeTen/threetenbp) optimized version for Android.
+- Same API as java.time.*, making them interchangeable.
 - Method Count: 3280
 
 ---
 
 ## Retrolambda
 
-- Transformar código Java 8 em código compatível com Java 5, 6 e 7
-- Opera em tempo de compilação
-- Suporte completo a Lambdas, Try-With-Resources e Method References
-- Suporte parcial a default methods
+- Transforms Java 8 code into code compatible with Java 5, 6 and 7.
+- Operates during compile time.
+- Full support to Lambdas, Try-With-Resources and Method References.
+- Partial support to default methods.
 
 
 ---
@@ -312,7 +312,7 @@ Observable.from(people)
 |                    	| RL 	        | Jack 	| RxJava 	| LS 	| TT 	|
 |--------------------	|-------------	|------	|--------	|-----	|----	|
 | Streams            	|             	| 24+  	| ✔      	| ✔   	|      	|
-| Default Methods    	| Parcial     	| 24+  	|        	|     	|      	|
+| Default Methods    	| Partial     	| 24+  	|        	|     	|      	|
 | Lambda             	| ✔           	| ✔    	|        	|     	|      	|
 | Method References  	| ✔           	| ✔    	|        	|     	|      	|
 | Try-With-Resources 	| ✔           	| ✔    	|        	|     	|      	|
@@ -323,7 +323,7 @@ Observable.from(people)
 
 ---
 
-## Referências
+## References
 
 - [Jack](https://source.android.com/source/jack.html)
 - [Jack e Java 8](https://developer.android.com/guide/platform/j8-jack.html)
@@ -336,11 +336,11 @@ Observable.from(people)
 
 ---
 
-# Obrigado
+# Thanks
 
-### Dúvidas?
+### Questions?
 
 <br />
 <br />
 
-[blog](http://ebonet.me) | [github](http://github.com/ebonet) | [linkedin](http://linkedin.com/in/eduardobonet/en)
+[blog](ebonet.me) | [github](github.com/ebonet) | [linkedin](linkedin.com/in/eduardobonet/en)
